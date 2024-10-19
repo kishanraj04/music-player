@@ -1,9 +1,13 @@
 import axios from 'axios'
 
 const authEndpoint = 'http://accounts.spotify.com/authorize';
+// let playlist_id = '3cEYpjA9oz9GiPac4AsH4n';
 const clientId = 'eebed9394a82489a86d9d3ab7dffa637';
 const redirectUri = 'http://localhost:5173/';
-const scope = ['user-library-read', 'playlist-read-private'];
+// const scope = ['user-library-read', 'playlist-read-private'];
+const scope = ['user-library-read', 'playlist-read-private', 'playlist-read-collaborative'];
+
+
 
 export const loginEndpoint = `${authEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope.join(" "))}&response_type=token&show_dialog=true`;
 
@@ -24,4 +28,7 @@ const setClientToken = (token)=>
       });
 }
 
-export default setClientToken
+export default setClientToken;
+
+
+
