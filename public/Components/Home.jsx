@@ -2,40 +2,38 @@ import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import SiderBar from "./SiderBar";
 import "../../src/index.css";
-import Auth from "../../auth/Auth";
-import setClientToken from "../../spotify";
 
 function Home() {
-  const [token, setToken] = useState("");
-
+ 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const hash = window.location.hash;
-    window.location.hash = ""
-    if (!token && hash) {
-      const _token = hash.split("&")[0].split("=")[1];
-      localStorage.setItem("token", _token);
-      setToken(_token)
-      setClientToken(_token)
-    }
-    else
-    {
-      setToken(token)
-      setClientToken(token)
-    }
+    const fetchData = async () => {
+      try {
+        if(localStorage.getItem('playlist')==null)
+        {
+          
+          const res = await fetch('https://v1.nocodeapi.com/kishanraj/spotify/LtVhOKDMyrAUDrWp/search?q=daku&type=track')
+          const playlist = (await res.json()).tracks.items
+          console.log(playlist);
+          localStorage.setItem('playlist',JSON.stringify(playlist))
+          
+        }
+      } catch (error) {
+        console.error('Error fetching playlists:', error.response ? error.response.data : error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
-    token ? (
+ 
       <div className="main-body">
         <SiderBar />
         <div className="routing">
           <Outlet /> {/* Use Outlet as a component */}
         </div>
       </div>
-    ) : (
-      <Auth />
-    )
+
   );
 }  
 

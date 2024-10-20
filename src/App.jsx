@@ -5,6 +5,7 @@ import Favorites from '../public/Components/Favorites';
 import Feed from '../public/Components/feed';
 import Liberary from '../public/Components/Liberary';
 import Trending from '../public/Components/Trending';
+import Playlist from '../public/Components/Playlist';
 
 function App() {
   const routes = createBrowserRouter([
@@ -12,11 +13,12 @@ function App() {
       path: '/',
       element: <Home />,
       children: [ // Use lowercase 'children'
-        { path: 'player', element: <Player /> },
+        { path: '/:player', element: <Player /> },
         { path: 'favorites', element: <Favorites /> },
         { path: 'feed', element: <Feed /> },
         { path: 'liberary', element: <Liberary /> },
         { path: 'trending', element: <Trending /> },
+        {path:'playlist',element:<Playlist/>}
       ],
     },
   ]);

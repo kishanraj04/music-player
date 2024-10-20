@@ -4,9 +4,14 @@ import '../../src/index.css'
 
 function SideBarLinks({icon,title,to}) {
 
+  function containsNumber(str) {
+    return str.match(/\d/) !== null;
+  }
+
   const location = useLocation().pathname
+  // console.log(location , location.length);
   const isActive = location===to ? 'exist activeClass' : 'exist'
-  console.log(isActive);
+
   return (
     <NavLink to={to} className="nav-link">
         <div className={isActive}>
