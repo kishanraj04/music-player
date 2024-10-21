@@ -2,10 +2,11 @@ import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
-
+import '../../css/music-beat.css'
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import SongPattern from "./SongPattern";
 
 export default function Playlist() {
   const playlist = JSON.parse(localStorage.getItem("playlist")) || [];
@@ -60,6 +61,10 @@ export default function Playlist() {
             )}
             <GrCaretNext className="same" size={"2rem"} color="yellow"/>
           </div>
+
+          <div className="songpattern">
+          <SongPattern li_num={16} height={'40px'} width={'10px'} zidx={'0'}/>
+          </div>
         </div>
 
         <div className="music-name-list">
@@ -91,12 +96,7 @@ export default function Playlist() {
         ))}
       </Swiper>
 
-      {/* <style jsx>{`
-        .playing {
-          color: red; // Change the color to red when playing
-          transform:scale(2);
-        }
-      `}</style> */}
+      
     </>
   );
 }

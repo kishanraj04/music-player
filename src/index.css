@@ -248,6 +248,7 @@ body
   justify-content:center;
   align-items: center;
   column-gap: 15px;
+  z-index: +1;
 }
 
 .swiper {
@@ -319,7 +320,8 @@ body
   flex-direction: column;
   row-gap: 25px;
   border-radius: 10% 20%;
-
+  position: relative;
+ 
 
 }
 
@@ -338,12 +340,19 @@ body
 .music-player .icons
 {
   display: flex;
+
   gap: 3rem;
 }
 
 .music-player .icons .same 
 {
   color: blue;
+}
+
+.music-player .songpattern
+{
+  position: absolute;
+  top: -14rem;
 }
 
 

@@ -21,7 +21,6 @@ function SiderBar() {
 
         <div className='links-container'>
              <SideBarLinks icon={<MdFavoriteBorder size={"1.5rem"} color='yellow' />} title={"Favorites"} to="/favorites"/>
-             <SideBarLinks icon={<FaFire size={"1.5rem"} color='yellow'/>} title={"Trending"} to="/trending" color='yellow'/>
              <SideBarLinks icon={<IoLibraryOutline size={"1.5rem"} color='yellow' />} title={"Liberary"} to="/liberary"/>
              <SideBarLinks icon={<PiPlaylistLight size={"1.5rem"} color='yellow'/>} title={"Playlist"} to='/playlist'/>
         </div>

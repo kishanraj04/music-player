@@ -4,7 +4,6 @@ import Player from '../public/Components/Player';
 import Favorites from '../public/Components/Favorites';
 import Feed from '../public/Components/feed';
 import Liberary from '../public/Components/Liberary';
-import Trending from '../public/Components/Trending';
 import Playlist from '../public/Components/Playlist';
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
         { path: 'favorites', element: <Favorites /> },
         { path: 'feed', element: <Feed /> },
         { path: 'liberary', element: <Liberary /> },
-        { path: 'trending', element: <Trending /> },
         {path:'playlist',element:<Playlist/>}
       ],
     },

@@ -40,7 +40,7 @@ function Library() {
     fetchData();
 
   }
-
+ console.log(playlist);
   return (
     <>
       
