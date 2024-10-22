@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MusicCard from './MusicCard';
 import '../../src/index.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { setStatus } from '../../store/favoritesSlice';
 
 
 function Library() {
   const [playlists, setPlaylists] = useState([]);
   const song_name = useRef('')
   const [query,setQuery] = useState('')
-
+  const favoritesArray = useSelector((state) => state.favorite.favoritesArray);
   const playlist = JSON.parse(localStorage.getItem('playlist'))
-  // console.log(playlist[0]);
   if(playlists==null)
   {
     return 
@@ -40,7 +41,8 @@ function Library() {
     fetchData();
 
   }
- console.log(playlist);
+  
+ const dispatch = useDispatch()
   return (
     <>
       
@@ -54,12 +56,32 @@ function Library() {
       {
         playlist.map((items,idx)=>
         {
-          return <MusicCard
-          image={items.album.images[0].url} 
-          key={idx}
-          auther={items.album.artists[0].name}
-          id={items.artists[0].id}
-          />
+          
+          const findItem = favoritesArray.find((value)=>value.songname==items.name)
+         
+          if(findItem)
+          {
+            return <MusicCard
+            image={items.album.images[0].url} 
+            key={idx}
+            auther={items.album.artists[0].name}
+            id={items.artists[0].id}
+            status={true}
+            songname={items.name}
+            />
+          }
+          else
+          {
+            return <MusicCard
+            image={items.album.images[0].url} 
+            key={idx}
+            auther={items.album.artists[0].name}
+            id={items.artists[0].id}
+            status={false}
+            songname={items.name}
+            />
+          }
+     
         })
       }
       </div>

@@ -18,7 +18,7 @@ function Player() {
       <audio src={song.preview_url} controls></audio>
     </div>
 
-    <SongPattern li_num={18}/>
+    <SongPattern li_num={17}/>
 
     </div>
   )

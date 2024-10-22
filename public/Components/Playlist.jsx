@@ -63,7 +63,7 @@ export default function Playlist() {
           </div>
 
           <div className="songpattern">
-          <SongPattern li_num={16} height={'40px'} width={'10px'} zidx={'0'}/>
+          <SongPattern li_num={14} height={'40px'} width={'10px'} zidx={'0'}/>
           </div>
         </div>
 
