@@ -10,7 +10,7 @@ function Player() {
   const playlist = JSON.parse(localStorage.getItem('playlist'))
   const song = playlist.find((single)=> single.artists[0].id==player)
   const images = song.album.images[0].url
-
+  
   return (
     <div className='main-player-container'>
       <div className='player-container'>

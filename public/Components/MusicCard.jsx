@@ -10,7 +10,7 @@ function MusicCard({image,id,icon,status,songname}) {
 
   
   const dispatch = useDispatch()
-  console.log(songname);
+
 
   return (
     

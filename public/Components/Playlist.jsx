@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { GrCaretNext, GrCaretPrevious } from "react-icons/gr";
-import '../../css/music-beat.css'
+import "../../css/music-beat.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
@@ -14,8 +14,26 @@ export default function Playlist() {
   const [songImg, setSongImg] = useState({});
   const audioRef = useRef();
 
+  function nextSong() {
+    if (songImg.runningplayname) {
+      const index_of_next_song =
+        playlist.findIndex((item) => item.name == songImg.runningplayname) + 1;
+      const next_song_obj = playlist[index_of_next_song];
+      const runningplayname = next_song_obj.name; // Assuming you want to use the artist ID
+      const song = next_song_obj.preview_url;
+      const images = next_song_obj.album.images[0].url;
+      setSongImg({ song, images, runningplayname });
+      console.log(songImg.song);
+      setIsPlaying(false);
+
+    }
+  }
+
   function handleSongClick(e) {
-    const songObj = playlist.find(single => single.artists[0].id === e.target.alt);
+    setIsPlaying(false);
+    const songObj = playlist.find(
+      (single) => single.artists[0].id === e.target.alt
+    );
     const runningplayname = songObj.name; // Assuming you want to use the artist ID
     const song = songObj.preview_url;
     const images = songObj.album.images[0].url;
@@ -24,11 +42,14 @@ export default function Playlist() {
     // Load and play the new song
     if (audioRef.current.src !== song) {
       audioRef.current.src = song;
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch(error => {
-        console.error("Error playing audio:", error);
-      });
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.error("Error playing audio:", error);
+        });
     }
   }
 
@@ -37,11 +58,14 @@ export default function Playlist() {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch(error => {
-        console.error("Error playing audio:", error);
-      });
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.error("Error playing audio:", error);
+        });
     }
   }
 
@@ -50,20 +74,44 @@ export default function Playlist() {
       <div className="playlist-containers">
         <div className="music-player">
           <img src={songImg.images} alt="" onClick={playPause} />
-          <audio ref={audioRef} onEnded={() => setIsPlaying(false)}></audio>
+          <audio
+            ref={audioRef}
+            src={songImg.song}
+            onEnded={() => {
+              setIsPlaying(false);
+            }}
+            
+          ></audio>
 
           <div className="icons">
-            <GrCaretPrevious className="same" size={"2rem"} color="yellow"/>
+            <GrCaretPrevious
+              className="same"
+              size={"2rem"}
+              color="yellow"
+              onClick={() => {}}
+            />
             {isPlaying ? (
               <FaPause size={"2rem"} onClick={playPause} color="yellow" />
             ) : (
               <FaPlay size={"2rem"} onClick={playPause} color="brown" />
             )}
-            <GrCaretNext className="same" size={"2rem"} color="yellow"/>
+            <GrCaretNext
+              className="same"
+              size={"2rem"}
+              color="yellow"
+              onClick={() => {
+                nextSong();
+              }}
+            />
           </div>
 
           <div className="songpattern">
-          <SongPattern li_num={14} height={'40px'} width={'10px'} zidx={'0'}/>
+            <SongPattern
+              li_num={14}
+              height={"40px"}
+              width={"10px"}
+              zidx={"0"}
+            />
           </div>
         </div>
 
@@ -73,7 +121,11 @@ export default function Playlist() {
             {playlist.map((item) => (
               <li
                 key={item.id}
-                className={item.name === songImg.runningplayname ? 'li-class playing' : ''}
+                className={
+                  item.name === songImg.runningplayname
+                    ? "li-class playing"
+                    : ""
+                }
               >
                 {item.name}
               </li>
@@ -95,8 +147,6 @@ export default function Playlist() {
           </SwiperSlide>
         ))}
       </Swiper>
-
-      
     </>
   );
 }
