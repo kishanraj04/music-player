@@ -10,7 +10,7 @@ import SongPattern from "./SongPattern";
 
 export default function Playlist() {
   const playlist = JSON.parse(localStorage.getItem("playlist")) || [];
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [index_of_current_play_song, setIndex_Of_Current_Song] = useState(null);
   const [songImg, setSongImg] = useState({});
   const audioRef = useRef();
@@ -24,7 +24,7 @@ export default function Playlist() {
     const song = prev_song_obj.preview_url;
     const images = prev_song_obj.album.images[0].url;
     setSongImg({ song, images, runningplayname });
-    setIsPlaying(false);
+    setIsPlaying(true);
     setIndex_Of_Current_Song((prev=>prev-1))
 
   };
@@ -41,12 +41,12 @@ export default function Playlist() {
       let index_of_current_song = index_of_next_song - 1;
       setSongImg({ song, images, runningplayname });
       setIndex_Of_Current_Song(index_of_current_song);
-      setIsPlaying(false);
+      setIsPlaying(true);
     }
   }
 
   function handleSongClick(e) {
-    setIsPlaying(false);
+    setIsPlaying(true);
     const songObj = playlist.find(
       (single) => single.artists[0].id === e.target.alt
     );
@@ -74,19 +74,39 @@ export default function Playlist() {
   }
 
   function playPause() {
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
+    if (audioRef.current) { // Ensure audioRef.current is defined
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.error("Error playing audio:", error);
+          });
+      }
     } else {
-      audioRef.current
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch((error) => {
-          console.error("Error playing audio:", error);
-        });
+      console.error("Audio reference is not defined");
     }
+  }
+
+
+  function handleSongEnded()
+  {
+    const index = playlist.findIndex((item)=>item.name==songImg.runningplayname)+1
+    if(index>=playlist.length) return
+
+    const next_song_obj = playlist[index]
+    const runningplayname = next_song_obj.name; // Assuming you want to use the artist ID
+    const song = next_song_obj.preview_url;
+    const images = next_song_obj.album.images[0].url;
+    setSongImg({ song, images, runningplayname });
+    setIndex_Of_Current_Song(index);
+    setIsPlaying(true)
+
   }
 
   return (
@@ -101,7 +121,9 @@ export default function Playlist() {
             src={songImg.song}
             onEnded={() => {
               setIsPlaying(false);
+              handleSongEnded()
             }}
+            autoPlay
           ></audio>
 
           <div className="icons">
